@@ -8,28 +8,29 @@ public class OpeningAnimation {
         }
         return ret;
     }
-    public static String animation(int frame) {
+    public static String animation(int f) {
+        String[][] frame = new String[tall][wide];
+        for (int i = 0; i < f; i ++) {
+            if (i < wide) {
+                frame[0][i] = "*";
+                continue;
+            }
+            if (i <= wide + tall - 2) {
+                frame[i - wide][wide - 1] = "*";
+                continue;
+            }
+
+        }
         String ret = "";
-        for (int i = 1; i <= frame; i ++) {
-            if (i <= wide) {
-                ret += "*";
-                continue;
+        for (String[] y : frame) {
+            for (String x : y) {
+                ret += x == null ? " " : x;
             }
-            if (i > wide && i > tall) {
-                continue;
-            }
-            if (i > wide) {
-                ret += "\n";
-                for (int m = 0; m < wide - 1; m ++) {
-                    ret += " ";
-                }
-                ret += "*";
-                continue;
-            }
+            ret += "\n";
         }
         return ret;
     }
     public static void start() {
-        System.out.println(animation(12));
+        System.out.println(animation(20));
     }
 }
