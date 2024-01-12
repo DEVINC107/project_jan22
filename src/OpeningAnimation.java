@@ -1,6 +1,6 @@
 public class OpeningAnimation {
     private static int wide = 10;
-    private static int tall = 4;
+    private static int tall = 3;
     public static String asterisks(int n) {
         String ret = "";
         for (int i = 0; i < n; i++ ) {
@@ -8,7 +8,7 @@ public class OpeningAnimation {
         }
         return ret;
     }
-    public static String animation(int f) {
+    public static String animation(int f, String text) {
         String[][] frame = new String[tall][wide];
         for (int i = 0; i < f; i ++) {
             if (i < wide) {
@@ -23,7 +23,11 @@ public class OpeningAnimation {
                 frame[tall - 1][wide + wide + (tall - 2) - i - 1] = "*";
                 continue;
             }
-            frame[(tall - (i - (wide + wide + tall - 2)) ) - 2][0] = "*";
+            System.out.println(i-(wide + wide + tall - 2));
+            frame[(tall - (i - (wide + wide + tall - 2)) ) - 1][0] = "*";
+        }
+        for (int i = 1; i <= text.length(); i ++) {
+            frame[1][i] = text.substring(i - 1, i);
         }
         String ret = "";
         for (String[] y : frame) {
@@ -37,7 +41,7 @@ public class OpeningAnimation {
     public static void start(String text) {
         for (int i = 1; i < 25; i ++) {
             ConsoleUtility.clearScreen();
-            System.out.println(animation(i));
+            System.out.println(animation(i, text));
             try {
                 Thread.sleep(100);
             } catch (Exception e) {};
