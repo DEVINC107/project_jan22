@@ -43,7 +43,7 @@ public class OpeningAnimation {
             ConsoleUtility.clearScreen();
             System.out.println(animation(i, text));
             try {
-                Thread.sleep(100);
+                Thread.sleep(20);
             } catch (Exception e) {};
         }
     }

@@ -6,11 +6,11 @@ import java.util.UUID;
 public class ATM {
     private static String name;
     private static int pin;
-    private static int balance = 0;
-    private static int savings = 0;
+    private static double balance = 0;
+    private static double savings = 0;
     private static int securityId = 0;
     private static int accountId = 0;
-    private static ArrayList<String> transactions;
+    private static ArrayList<String> transactions = new ArrayList<>();
     private static Scanner scan;
 
     private static void out(String s) {
@@ -78,7 +78,7 @@ public class ATM {
                     System.out.print("How many 20s? ");
                     int twenties = Integer.parseInt(scan.nextLine());
                     int transactionCost = twenties * 20 + fives * 5;
-                    if (transactionCost < balance) {
+                    if (transactionCost > balance) {
                         transactions.add(
                                 String.format(
                                         "Attempted to withdraw $%d in %d fives and %d twenties. Insufficient funds.\nID: %s",
@@ -104,6 +104,8 @@ public class ATM {
                                 )
                         );
                         balance -= transactionCost;
+                        System.out.println(String.format("Withdrawn %d successfully", transactionCost));
+                        oneExit = true;
                     }
                 }
             }
@@ -111,9 +113,10 @@ public class ATM {
                 System.out.print("How much? ");
                 double amount = Double.parseDouble(scan.nextLine());
                 balance += amount;
+                System.out.println(String.format("Successfully deposited $%.3f", amount));
                 transactions.add(
                         String.format(
-                                "Deposited $%d successfully.\nID: %s\nCHECKINGS BEFORE: %d\nCHECKINGS AFTER: %d",
+                                "Deposited $%.2f successfully.\nID: %s\nCHECKINGS BEFORE: %.2f\nCHECKINGS AFTER: %.2f",
                                 amount,
                                 transactionID(),
                                 balance - amount,
@@ -127,13 +130,13 @@ public class ATM {
                 String from = in("FROM? ");
                 String to = in("TO? ");
                 if (from.toLowerCase().equals("savings") && to.toLowerCase().equals("checkings")) {
-                    int amount = Integer.parseInt(in("How much? "));
+                    double amount = Double.parseDouble(in("How much? "));
                     if (amount <= savings) {
                         balance += amount;
                         savings -= amount;
                         transactions.add(
                                 String.format(
-                                        "Moved $%d from savings to checkings.\nID: %s\nSAVINGS BEFORE: \nSAVINGS AFTER: \nCHECKINGS BEFORE: %d\n CHECKINGS AFTER: %d",
+                                        "Moved $%.2f from savings to checkings.\nID: %s\nSAVINGS BEFORE: %.2f\nSAVINGS AFTER: %.2f\nCHECKINGS BEFORE: %.2f\n CHECKINGS AFTER: %.2f",
                                         amount,
                                         transactionID(),
                                         savings + amount,
@@ -142,6 +145,7 @@ public class ATM {
                                         balance
                                 )
                         );
+                        System.out.println(String.format("Successfully moved $%.2f from savings to checkings", amount));
                     } else {
                         out("Insufficient funds");
                     }
@@ -153,7 +157,7 @@ public class ATM {
                         balance -= amount;
                         transactions.add(
                                 String.format(
-                                        "Moved $%d from checkings to savings.\nID: %s\nSAVINGS BEFORE: \nSAVINGS AFTER: \nCHECKINGS BEFORE: %d\n CHECKINGS AFTER: %d",
+                                        "Moved $%.2f from checkings to savings.\nID: %s\nSAVINGS BEFORE: %.2f\nSAVINGS AFTER: %.2f\nCHECKINGS BEFORE: %.2f\n CHECKINGS AFTER: %.2f",
                                         amount,
                                         transactionID(),
                                         savings - amount,
@@ -162,6 +166,7 @@ public class ATM {
                                         balance
                                 )
                         );
+                        System.out.println(String.format("Successfully moved $%.2f from checkings to savings", amount));
                     } else {
                         out("Insufficient funds");
                     }
@@ -172,15 +177,33 @@ public class ATM {
                 System.out.println("CHECKINGS: " + balance);
             }
             if (option.equals("5")) {
+                System.out.println("------ TRANSACTIONS -------");
                 int a = 1;
                 for (int i = transactions.size() - 1; i >= 0; i --) {
                     System.out.println(a + ". " + transactions.get(i));
                 }
+                System.out.println("---------------------------");
             }
             if (option.equals("6")) {
                 int newPin = Integer.parseInt("Enter your new four digit pin: ");
                 pin = newPin;
+                System.out.println("Changed pin");
+            }
+            if (option.equals("7")) {
+                exit = true;
+            }
+            if (!exit) {
+                String choice = in("Continue using ATM? ");
+                if (choice.equals("y")) {
+                    int attempt = Integer.parseInt(in("Enter pin: "));
+                    if (attempt == pin) {
+                        System.out.println("Pin entered successfully!");
+                    } else {
+                        out("You've been locked out for entering the wrong PIN");
+                    }
+                }
             }
         }
+        System.out.println("Thanks for your patronage " + name);
     }
 }
