@@ -160,7 +160,7 @@ public class ATM {
                 System.out.println("CHECKINGS: " + balance.getMoney());
                 TransactionHistory.add(
                         String.format(
-                                "Checked savings\n%s",
+                                "Checked savings\nID: %s",
                                 TransactionHistory.securityTransactionId()
                         )
                 );
@@ -169,7 +169,7 @@ public class ATM {
                 TransactionHistory.print();
                 TransactionHistory.add(
                         String.format(
-                                "Checked TransactionHistory\n%s",
+                                "Checked TransactionHistory\nID: %s",
                                 TransactionHistory.securityTransactionId()
                         )
                 );
@@ -178,7 +178,7 @@ public class ATM {
                 int newPin = Integer.parseInt(in("Enter your new four digit pin: "));
                 TransactionHistory.add(
                         String.format(
-                                "Changed pin from %d to %d\n%s",
+                                "Changed pin from %d to %d\nID: %s",
                                 customer.getPin(), newPin, TransactionHistory.securityTransactionId()
                         )
                 );
