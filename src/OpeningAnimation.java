@@ -23,7 +23,6 @@ public class OpeningAnimation {
                 frame[tall - 1][wide + wide + (tall - 2) - i - 1] = "*";
                 continue;
             }
-            System.out.println(i-(wide + wide + tall - 2));
             frame[(tall - (i - (wide + wide + tall - 2)) ) - 1][0] = "*";
         }
         for (int i = 1; i <= text.length(); i ++) {
@@ -43,8 +42,10 @@ public class OpeningAnimation {
             ConsoleUtility.clearScreen();
             System.out.println(animation(i, text));
             try {
-                Thread.sleep(20);
-            } catch (Exception e) {};
+                Thread.sleep(50);
+            } catch (Exception e) {
+                System.out.println("err");
+            };
         }
     }
 }
